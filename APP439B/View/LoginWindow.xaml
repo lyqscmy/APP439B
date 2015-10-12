@@ -1,0 +1,65 @@
+﻿<Window x:Class="APP439B.View.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Window1" Height="300" Width="300">
+    <Grid Margin="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition Width="*"  />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label 
+          Grid.Row="0" Grid.Column="0" 
+          Content="用户名:" 
+          HorizontalAlignment="Right"
+          Target="{Binding ElementName=Username}" 
+          />
+        <TextBox 
+          x:Name="Username"
+          Grid.Row="0" Grid.Column="2" 
+          Text="{Binding Path=Username}"
+          />
+
+        <Label 
+          Grid.Row="2" Grid.Column="0" 
+          Content="密码:" 
+          HorizontalAlignment="Right"
+          Target="{Binding ElementName=Password}" 
+          />
+        <PasswordBox 
+          x:Name="Password"
+          Grid.Row="2" Grid.Column="2"
+          />
+
+        <Button 
+            Grid.Row="4" Grid.Column="2" 
+            Name="loginButton"
+            Content="登陆"
+            HorizontalAlignment="Right"
+            Margin="4,2" 
+            MinWidth="60" 
+            MaxHeight="40"
+            Click="loginButton_Click"
+            />
+        <Button 
+            Grid.Row="4" Grid.Column="0" 
+            Name="exitButton"
+            Content="退出"
+            HorizontalAlignment="Right"
+            Margin="4,2" 
+            MinWidth="60" 
+            MaxHeight="40"
+            Click="exitButton_Click"
+            />
+
+    </Grid>
+</Window>

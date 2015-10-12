@@ -1,0 +1,131 @@
+﻿<Window x:Class="APP439B.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vw="clr-namespace:APP439B.View"
+        xmlns:local="clr-namespace:APP439B.Commands"
+        Title="测控系统" Height="500" Width="1000">
+    
+    <Window.CommandBindings>
+        <CommandBinding
+            Command="local:MainBoardCommands.Connect"
+            Executed="Connect_Executed"
+            CanExecute="Connect_CanExecute">
+        </CommandBinding>
+        <CommandBinding
+            Command="local:MainBoardCommands.Disconnect"
+            Executed="Disconnect_Executed"
+            CanExecute="Disconnect_CanExecute">
+        </CommandBinding>
+        <CommandBinding
+            Command="local:MainBoardCommands.Settings"
+            Executed="Settings_Executed"
+            CanExecute="Settings_CanExecute">
+        </CommandBinding>
+    </Window.CommandBindings>
+    
+    <Window.Resources>
+        <ResourceDictionary Source="MainWindowResources.xaml" />
+    </Window.Resources>
+    
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
+            <Menu KeyboardNavigation.TabNavigation="Cycle">
+                <MenuItem Header="文件">
+                </MenuItem>
+                <MenuItem Header="设置">
+                    <MenuItem 
+                        Command="local:MainBoardCommands.Settings"
+                        Header="串口参数设置"/>
+                    <MenuItem 
+                        Command="local:MainBoardCommands.Connect"
+                        Header="连接"/>
+                    <MenuItem 
+                        Command="local:MainBoardCommands.Disconnect"
+                        Header="断开"/>
+                </MenuItem>
+                <MenuItem Header="数据处理">
+                    <MenuItem Header="数据导入"/>
+                    <MenuItem Header="数据处理"/>
+                </MenuItem>
+                <MenuItem Header="调试">
+                    <MenuItem Header="主控板调试"/>
+                    <MenuItem Header="环境参数"/>
+                </MenuItem>
+                <MenuItem Header="帮助" />
+            </Menu>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <ToolBar >
+                <Button Command="local:MainBoardCommands.Connect">
+                    <Image Source="images/connect.png" Height="20"/>
+                </Button>
+                <Button Command="local:MainBoardCommands.Disconnect">
+                    <Image Source="images/disconnect.png" Height="20"/>
+                </Button>
+                <Button Command="local:MainBoardCommands.Settings">
+                    <Image Source="images/settings.png" Height="20"/>
+                </Button>
+            </ToolBar>
+        </DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <Label 
+                    x:Name="Status"
+                    Content="状态栏">
+                </Label>
+            </StatusBarItem>
+        </StatusBar>
+
+        <Grid Margin="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="50" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Border 
+                Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
+                Style="{StaticResource MainBorderStyle}"
+                Width="450"
+                >
+                <HeaderedContentControl
+                  Header="环境参数"
+                  Style="{StaticResource MainHCCStyle}">
+                    <vw:EnvirnomentView></vw:EnvirnomentView>
+                </HeaderedContentControl>               
+            </Border>
+
+            <Border 
+                Grid.Column="2"  Grid.Row="0"
+                Style="{StaticResource MainBorderStyle}"
+                Width="Auto"
+                >
+                <HeaderedContentControl
+                  Header="拉力参数"
+                  Style="{StaticResource MainHCCStyle}">
+                    <vw:PullParameterView></vw:PullParameterView>
+                </HeaderedContentControl>
+            </Border>
+            <Border 
+                Grid.Column="2"  Grid.Row="2"
+                Style="{StaticResource MainBorderStyle}"
+                Width="Auto"
+                >
+                <HeaderedContentControl
+                  Header="控制面板"
+                  Style="{StaticResource MainHCCStyle}"
+                  >
+                    <vw:ControlCenterView></vw:ControlCenterView>
+                </HeaderedContentControl>
+            </Border>
+
+        </Grid>
+
+
+    </DockPanel>
+</Window>

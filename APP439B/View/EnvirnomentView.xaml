@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="APP439B.View.EnvirnomentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:APP439B.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             MinWidth="400" MinHeight="200"
+             >
+    
+    <UserControl.CommandBindings>
+        <CommandBinding
+            Command="{x:Static local:EnvirnomentView.QueryCommand}"
+            Executed="Refresh_Executed"
+            CanExecute="Refresh_CanExecute"
+            ></CommandBinding>
+    </UserControl.CommandBindings>
+    <Grid x:Name="gridEnvirnomentData" Margin="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition Width="Auto" MinWidth="70"/>
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="Auto" MinWidth="70"/>
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition Width="*"  MinWidth="70"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Label 
+          Grid.Row="0" Grid.Column="0" 
+          Content="风速:" 
+          HorizontalAlignment="Right"
+          Target="{Binding ElementName=WindSpeed}" 
+          />
+        <TextBox 
+            x:Name="WindSpeed"
+            Grid.Row="0" Grid.Column="2"
+            Text="{Binding Path=WindSpeed}"
+          />
+
+        <Label 
+          Grid.Row="0" Grid.Column="4" 
+          Content="风向:" 
+          HorizontalAlignment="Right"
+          Target="{Binding ElementName=WindDirection}" 
+          />
+        <TextBox 
+          x:Name="WindDirection"
+          Grid.Row="0" Grid.Column="6" 
+          Text="{Binding Path=WindDirection}"
+          />
+
+        <Label 
+          Grid.Row="2" Grid.Column="4" 
+          Content="湿度:" 
+          HorizontalAlignment="Right"
+          Target="{Binding ElementName=Humidity}" 
+          />
+        <TextBox 
+          x:Name="Humidity"
+          Grid.Row="2" Grid.Column="6" 
+          Text="{Binding Path=Humidity}"
+          />
+
+        <Label 
+          Grid.Row="2" Grid.Column="0" 
+          Content="温度:" 
+          HorizontalAlignment="Right"
+          Target="{Binding ElementName=Temperature}" 
+          />
+        <TextBox
+          x:Name="Temperature"
+          Grid.Row="2" Grid.Column="2" 
+          Text="{Binding Path=Temperature}"
+          />
+        <Label
+            Grid.Row="4" Grid.Column="0"
+            HorizontalAlignment="Right"
+            Content="连接状态："
+            />
+        <Label
+            x:Name="Status"
+            Grid.Row="4" Grid.Column="2"
+            Content="{Binding Path=Status}"
+            />
+        <ComboBox
+            x:Name="T"
+            Grid.Row="4" Grid.Column="4"
+            SelectionChanged="ComboBox_SelectionChanged"
+          >
+            <ComboBoxItem>5</ComboBoxItem>
+            <ComboBoxItem>10</ComboBoxItem>
+            <ComboBoxItem>15</ComboBoxItem>
+           
+        </ComboBox>
+
+        <Button
+            x:Name="Refresh"
+            Command="{x:Static local:EnvirnomentView.QueryCommand}"
+            CommandParameter="{Binding ElementName=Refresh}"
+            Grid.Row="4" Grid.Column="6" 
+            Content="立即刷新"
+            />
+
+    </Grid>
+</UserControl>
