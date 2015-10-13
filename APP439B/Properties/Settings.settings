@@ -3,16 +3,16 @@
   <Profiles />
   <Settings>
     <Setting Name="PortName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">COM7</Value>
+      <Value Profile="(Default)">COM3</Value>
     </Setting>
     <Setting Name="BaudRate" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">9600</Value>
+      <Value Profile="(Default)">115200</Value>
     </Setting>
     <Setting Name="DataBits" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">8</Value>
     </Setting>
     <Setting Name="Parity" Type="System.IO.Ports.Parity" Scope="User">
-      <Value Profile="(Default)">None</Value>
+      <Value Profile="(Default)">Odd</Value>
     </Setting>
     <Setting Name="StopBits" Type="System.IO.Ports.StopBits" Scope="User">
       <Value Profile="(Default)">One</Value>

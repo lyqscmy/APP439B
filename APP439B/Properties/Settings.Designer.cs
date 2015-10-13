@@ -25,7 +25,7 @@ namespace APP439B.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COM7")]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM3")]
         public string PortName {
             get {
                 return ((string)(this["PortName"]));
@@ -37,7 +37,7 @@ namespace APP439B.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("9600")]
+        [global::System.Configuration.DefaultSettingValueAttribute("115200")]
         public int BaudRate {
             get {
                 return ((int)(this["BaudRate"]));
@@ -61,7 +61,7 @@ namespace APP439B.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("None")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Odd")]
         public global::System.IO.Ports.Parity Parity {
             get {
                 return ((global::System.IO.Ports.Parity)(this["Parity"]));

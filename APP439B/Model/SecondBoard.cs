@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Collections;
 
 namespace APP439B.Model
 {
@@ -41,8 +42,9 @@ namespace APP439B.Model
             return cs;
         }
 
-        public void HandShake()
+        public string HandShake()
         {
+            string response = "设备正常";
             try
             {
                 byte[] input = new byte[1024];
@@ -76,28 +78,50 @@ namespace APP439B.Model
                 catch (ArgumentNullException ane)
                 {
                     Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                    response = "读取异常";
+                    return response;
                 }
                 catch (SocketException se)
                 {
                     Console.WriteLine("SocketException : {0}", se.ToString());
+                    response = "读取异常";
+                    return response;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                    response = "读取异常";
+                    return response;
                 }
 
                 if (data[4] != CheckSum(data)) //cs
                 { throw new Exception(); }
-                else if (data[3] == 0xFF)
-                { throw new Exception(); }
+                else if (data[3] != 0x00)
+                {
+                    ArrayList List = new ArrayList(4);
+                    if ((data[3] & 0x01) != 0x00) List.Add("1#多普勒测速仪异常 ");
+                    if ((data[3] & 0x02) != 0x00) List.Add("2#多普勒测速仪异常 ");
+                    if ((data[3] & 0x04) != 0x00) List.Add("3#多普勒测速仪异常 ");
+                    if ((data[3] & 0x08) != 0x00) List.Add("环境参数测试仪异常 ");
+                    foreach(string str in List)
+                    {
+                        response = "";
+                        response += str;
+                        return response;
+                    }
+                }
+                
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                response = "读取异常";
+                return response;
             }
+            return response;
         }
 
-        public void TestStart()
+        public bool TestStart()
         {
             try
             {
@@ -131,14 +155,17 @@ namespace APP439B.Model
                 catch (ArgumentNullException ane)
                 {
                     Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                    return false;
                 }
                 catch (SocketException se)
                 {
                     Console.WriteLine("SocketException : {0}", se.ToString());
+                    return false;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                    return false;
                 }
                 if (data[3] != CheckSum(data)) //cs
                 { throw new Exception(); }
@@ -146,10 +173,12 @@ namespace APP439B.Model
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                return false;
             }
+            return true;
         }
 
-        public void TestStop()
+        public bool TestStop()
         {
             try
             {
@@ -183,6 +212,69 @@ namespace APP439B.Model
                 catch (ArgumentNullException ane)
                 {
                     Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                    return false;
+                }
+                catch (SocketException se)
+                {
+                    Console.WriteLine("SocketException : {0}", se.ToString());
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                    return false;
+                }
+                if (data[3] != CheckSum(data)) //cs
+                { throw new Exception(); }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return false;
+            }
+            return true;
+        }
+
+        public List<EnvParameters> EnvQuery()
+        {
+            List<EnvParameters> parameters = new List<EnvParameters>();
+            try
+            {
+                byte[] input = new byte[1024];
+                byte[] recv = new byte[1024];
+                byte[] data = new byte[1024];
+                int len_recv;
+
+                //string stringRecv;
+                IPAddress ip = IPAddress.Parse("127.0.0.1");  //定义主机的IP及端口
+                IPEndPoint ipEnd = new IPEndPoint(ip, 5566);
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                try
+                {
+                    socket.Connect(ipEnd);
+
+                    input = commands["Stop"];
+                    socket.Send(input, input.Length, SocketFlags.None);
+
+                    len_recv = socket.Receive(recv);
+                    data[0] = recv[2];  //add
+                    data[1] = recv[3];  //c
+                    data[2] = recv[4];  //l
+                    data[3] = recv[5];  //data
+                    data[4] = recv[5];  //data
+                    data[5] = recv[5];  //data
+                    data[6] = recv[5];  //data
+                    Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(recv, 0, len_recv));
+
+                    // Release the socket.
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Close();
+
+                }
+                catch (ArgumentNullException ane)
+                {
+                    Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
                 }
                 catch (SocketException se)
                 {
@@ -194,12 +286,79 @@ namespace APP439B.Model
                 }
                 if (data[3] != CheckSum(data)) //cs
                 { throw new Exception(); }
+
+                string windDirection = System.Text.Encoding.ASCII.GetString(new[] { data[4] });
+                EnvParameters parameter = new EnvParameters((double)data[3],
+                    (string)windDirection, (double)data[5], (double)data[6]);
+                parameters.Add(parameter);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
+            return parameters;
         }
 
+        public List<DopplerParameters> DopplerQuery()
+        {
+            List<DopplerParameters> parameters = new List<DopplerParameters>();
+            try
+            {
+                byte[] input = new byte[1024];
+                byte[] recv = new byte[1024];
+                byte[] data = new byte[1024];
+                int len_recv;
+
+                //string stringRecv;
+                IPAddress ip = IPAddress.Parse("127.0.0.1");  //定义主机的IP及端口
+                IPEndPoint ipEnd = new IPEndPoint(ip, 5566);
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                try
+                {
+                    socket.Connect(ipEnd);
+
+                    input = commands["Stop"];
+                    socket.Send(input, input.Length, SocketFlags.None);
+
+                    len_recv = socket.Receive(recv);
+                    data[0] = recv[2];  //add
+                    data[1] = recv[3];  //c
+                    data[2] = recv[4];  //l
+                    data[3] = recv[5];  //data
+                    data[4] = recv[5];  //data
+                    data[5] = recv[5];  //data
+                    Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(recv, 0, len_recv));
+
+                    // Release the socket.
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Close();
+
+                }
+                catch (ArgumentNullException ane)
+                {
+                    Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                }
+                catch (SocketException se)
+                {
+                    Console.WriteLine("SocketException : {0}", se.ToString());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                }
+                if (data[3] != CheckSum(data)) //cs
+                { throw new Exception(); }
+
+                DopplerParameters parameter = new DopplerParameters((double)data[3],
+                    (double)data[4]);
+                parameters.Add(parameter);
+            }
+            catch (Exception e)      
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return parameters;
+        }
     }
 }

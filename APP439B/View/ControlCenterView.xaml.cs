@@ -32,20 +32,12 @@ namespace APP439B.View
             playing = false;
         }
 
-        private void HandShake_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-        private void HandShake_CanExecut(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
         private void HandShake_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 App.MainBoard.HandShake();
+                App.SecondBoard.HandShake();
             }
             catch
             {
@@ -91,11 +83,12 @@ namespace APP439B.View
                 try
                 {
                     App.MainBoard.TestStart();
+                    App.SecondBoard.TestStart();
                     Start.Content = "实验停止";
                 }
                 catch
                 {
-
+                    
                 }
                 
             }
@@ -104,6 +97,7 @@ namespace APP439B.View
                 try
                 {
                     App.MainBoard.TestStop();
+                    App.SecondBoard.TestStop();
                     Start.Content = "实验开始";
                 }
                 catch

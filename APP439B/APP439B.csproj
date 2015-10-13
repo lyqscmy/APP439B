@@ -54,6 +54,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\MainBoardCommands.cs" />
+    <Compile Include="Model\DopplerParameters.cs" />
+    <Compile Include="Model\EnvParameters.cs" />
     <Compile Include="Model\MainBoard.cs" />
     <Compile Include="Model\SecondBoard.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />

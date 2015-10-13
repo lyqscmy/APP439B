@@ -14,6 +14,7 @@ using System.Windows.Resources;
 using System.Windows;
 using System.Globalization;
 using APP439B.Model;
+using System.Collections;
 
 namespace APP439B
 {
@@ -128,9 +129,19 @@ namespace APP439B
             {
                 return "读取失败";
             }
-            if (data[0] != 255)
+            if (data[0] != 0)
             {
-                return "设备异常";
+                ArrayList List = new ArrayList(4);
+                if ((data[0] & 0x01) != 0x00) List.Add("1#多普勒测速仪异常 ");
+                if ((data[0] & 0x02) != 0x00) List.Add("2#多普勒测速仪异常 ");
+                if ((data[0] & 0x04) != 0x00) List.Add("3#多普勒测速仪异常 ");
+                if ((data[0] & 0x08) != 0x00) List.Add("环境参数测试仪异常 ");
+                foreach (string str in List)
+                {
+                    response = "";
+                    response += str;
+                    return response;
+                }
             }
             return "设备正常";
         }

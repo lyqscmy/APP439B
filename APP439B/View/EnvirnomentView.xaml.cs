@@ -65,7 +65,7 @@ namespace APP439B.View
             try
             {
                 Status.Content = "立即刷新";
-                gridEnvirnomentData.DataContext = App.MainBoard.Query("Envirnoment");
+                gridEnvirnomentData.DataContext = App.MainBoard.EnvQuery();
                
             }
             catch

@@ -97,7 +97,7 @@
 
         <Label 
           Grid.Row="10" Grid.Column="0" 
-          Content="Parity:" 
+          Content="RtsEnable:" 
           HorizontalAlignment="Right"
           Target="{Binding ElementName=rtsEnableCmb}" 
           />

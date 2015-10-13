@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using APP439B.Model;
 
 namespace APP439B
 {
@@ -16,6 +17,10 @@ namespace APP439B
     {
         private static MainBoard mainBoard = new MainBoard();
         public static MainBoard MainBoard { get { return mainBoard; } }
+
+        private static SecondBoard secondBoard = new SecondBoard();
+        public static SecondBoard SecondBoard { get { return secondBoard; } }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
