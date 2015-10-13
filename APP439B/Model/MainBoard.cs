@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using System.Windows.Resources;
 using System.Windows;
 using System.Globalization;
+using APP439B.Model;
 
 namespace APP439B
 {
@@ -166,26 +167,43 @@ namespace APP439B
             return response;
         }
 
-        public string Query(string type)
+        public List<EnvParameters> EnvQuery()
         {
             Write(commands["Query"]);
-            byte[] data = new byte[7] ;
+            byte[] data = new byte[4];
+            List<EnvParameters> parameters = new List<EnvParameters>();
             try
             {
                 data = ReadData();
+                string windDirection = System.Text.Encoding.ASCII.GetString(new[] { data[1] });
+                EnvParameters parameter = new EnvParameters((double)data[0],
+                    (string)windDirection, (double)data[2], (double)data[3]);
+                parameters.Add(parameter);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return "读取失败";
+                Console.WriteLine("Unexpected exception : {0}", e.ToString());
             }
-            switch (type)
+            return parameters;
+        }
+
+        public List<DopplerParameters> DopplerQuery()
+        {
+            Write(commands["Query"]);
+            byte[] data = new byte[2];
+            List<DopplerParameters> parameters = new List<DopplerParameters>();
+            try
             {
-                case "Environment":
-                    break;
-                default:
-                    break;
+                data = ReadData();
+                DopplerParameters parameter = new DopplerParameters((double)data[0],
+                    (double)data[1]);
+                parameters.Add(parameter);
             }
-            return response;
+            catch (Exception e)
+            {
+                Console.WriteLine("Unexpected exception : {0}", e.ToString());
+            }
+            return parameters;
         }
 
         # endregion // Commands
