@@ -22,7 +22,7 @@ namespace APP439B.View
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             T.SelectedItem = T.Items[0];
             dispatcherTimer.Interval = new TimeSpan(0, 0, int.Parse(T.Text));
-            dispatcherTimer.Start();
+            //dispatcherTimer.Start();
         }
 
         public static RoutedCommand QueryCommand = new RoutedCommand();
@@ -65,7 +65,15 @@ namespace APP439B.View
             try
             {
                 Status.Content = "立即刷新";
-                gridEnvirnomentData.DataContext = App.MainBoard.EnvQuery();
+                try
+                {
+                    gridEnvirnomentData.DataContext = App.MainBoard.EnvQuery();
+                }
+                catch
+                {
+                    Status.Content = "数据查询异常";
+                }
+              
                
             }
             catch

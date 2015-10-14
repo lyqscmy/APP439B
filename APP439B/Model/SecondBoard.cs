@@ -10,10 +10,43 @@ using System.Collections;
 
 namespace APP439B.Model
 {
-    class SecondBoard
+    public class SecondBoard
     {
-        Dictionary<string, byte[]> commands;
+        private Dictionary<string, byte[]> commands;
+        static string ip_address = "192.168.0.101";
+        static int port = 8080;
 
+        static IPAddress ip = IPAddress.Parse(ip_address);  //定义主机的IP及端口
+        IPEndPoint ipEnd = new IPEndPoint(ip, port);
+        Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+        public void Connect()
+        {
+            try
+            {
+                socket.Connect(ipEnd);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
+        }
+
+        public void Disconnect()
+        {
+            try
+            {
+                // Release the socket.
+                socket.Shutdown(SocketShutdown.Both);
+                socket.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+        
         private Dictionary<string, byte[]> CreatCommands()
         {
             byte[] acld_HandShake = new byte[4] { 0xA2, 0x91, 0x00, 0x00 };
@@ -32,6 +65,15 @@ namespace APP439B.Model
             return commands;
         }
 
+        # region Constructor
+
+        public SecondBoard()
+        {
+            commands = CreatCommands();
+        }
+
+        # endregion // Constructor
+
         private byte CheckSum(byte[] bytes)
         {
             byte cs = 0;
@@ -41,7 +83,7 @@ namespace APP439B.Model
             }
             return cs;
         }
-
+        
         public string HandShake()
         {
             string response = "设备正常";
@@ -52,15 +94,10 @@ namespace APP439B.Model
                 byte[] data = new byte[1024];
                 int len_recv;
                 //string stringRecv;
-                IPAddress ip = IPAddress.Parse("127.0.0.1");  //定义主机的IP及端口
-                IPEndPoint ipEnd = new IPEndPoint(ip, 5566);
-                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 try
                 {
-                    socket.Connect(ipEnd);
-
-                    input = commands["HandShake"];
+                    Array.Copy(commands["HandShake"], input, commands["HandShake"].Length);
                     socket.Send(input, input.Length, SocketFlags.None);
 
                     len_recv = socket.Receive(recv);
@@ -69,11 +106,6 @@ namespace APP439B.Model
                     data[2] = recv[4];  //l
                     data[3] = recv[5];  //data
                     Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(recv, 0, len_recv));
-
-                    // Release the socket.
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Close();
-
                 }
                 catch (ArgumentNullException ane)
                 {
@@ -125,20 +157,15 @@ namespace APP439B.Model
         {
             try
             {
-                byte[] input = new byte[1024];
-                byte[] recv = new byte[1024];
-                byte[] data = new byte[1024];
+                byte[] input = new byte[8];
+                byte[] recv = new byte[8];
+                byte[] data = new byte[8];
                 int len_recv;
                 //string stringRecv;
-                IPAddress ip = IPAddress.Parse("127.0.0.1");  //定义主机的IP及端口
-                IPEndPoint ipEnd = new IPEndPoint(ip, 5566);
-                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 try
                 {
-                    socket.Connect(ipEnd);
-
-                    input = commands["Start"];
+                    Array.Copy(commands["Start"], input, commands["Start"].Length);
                     socket.Send(input, input.Length, SocketFlags.None);
 
                     len_recv = socket.Receive(recv);
@@ -146,10 +173,6 @@ namespace APP439B.Model
                     data[1] = recv[3];  //c
                     data[2] = recv[4];  //l
                     Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(recv, 0, len_recv));
-
-                    // Release the socket.
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Close();
 
                 }
                 catch (ArgumentNullException ane)
@@ -187,15 +210,10 @@ namespace APP439B.Model
                 byte[] data = new byte[1024];
                 int len_recv;
                 //string stringRecv;
-                IPAddress ip = IPAddress.Parse("127.0.0.1");  //定义主机的IP及端口
-                IPEndPoint ipEnd = new IPEndPoint(ip, 5566);
-                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 try
                 {
-                    socket.Connect(ipEnd);
-
-                    input = commands["Stop"];
+                    Array.Copy(commands["Stop"], input, commands["Stop"].Length);
                     socket.Send(input, input.Length, SocketFlags.None);
 
                     len_recv = socket.Receive(recv);
@@ -203,10 +221,6 @@ namespace APP439B.Model
                     data[1] = recv[3];  //c
                     data[2] = recv[4];  //l
                     Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(recv, 0, len_recv));
-
-                    // Release the socket.
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Close();
 
                 }
                 catch (ArgumentNullException ane)
@@ -247,7 +261,7 @@ namespace APP439B.Model
 
                 //string stringRecv;
                 IPAddress ip = IPAddress.Parse("127.0.0.1");  //定义主机的IP及端口
-                IPEndPoint ipEnd = new IPEndPoint(ip, 5566);
+                IPEndPoint ipEnd = new IPEndPoint(ip, port);
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 try
@@ -310,8 +324,8 @@ namespace APP439B.Model
                 int len_recv;
 
                 //string stringRecv;
-                IPAddress ip = IPAddress.Parse("127.0.0.1");  //定义主机的IP及端口
-                IPEndPoint ipEnd = new IPEndPoint(ip, 5566);
+                IPAddress ip = IPAddress.Parse(ip_address);  //定义主机的IP及端口
+                IPEndPoint ipEnd = new IPEndPoint(ip, port);
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 try

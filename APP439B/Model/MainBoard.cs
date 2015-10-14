@@ -194,6 +194,8 @@ namespace APP439B
             catch (Exception e)
             {
                 Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                throw new Exception();
+                
             }
             return parameters;
         }

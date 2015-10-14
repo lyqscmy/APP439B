@@ -21,16 +21,5 @@ namespace APP439B.Commands
         public readonly static RoutedUICommand Query = new RoutedUICommand(
          "查询", "查询", typeof(MainBoardCommands));
 
-        public readonly static RoutedUICommand HandShake = new RoutedUICommand(
-         "自检", "自检", typeof(MainBoardCommands));
-
-        public readonly static RoutedUICommand PlayBoardCast = new RoutedUICommand(
-         "播放警报", "播放警报", typeof(MainBoardCommands));
-
-        public readonly static RoutedUICommand Start = new RoutedUICommand(
-        "实验开始", "实验开始", typeof(MainBoardCommands));
-
-        public readonly static RoutedUICommand Stop = new RoutedUICommand(
-        "停止实验", "停止实验", typeof(MainBoardCommands));
     }
 }

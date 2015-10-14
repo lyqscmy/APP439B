@@ -48,8 +48,8 @@ namespace APP439B
         {
             App.MainBoard.Set(settings);
             App.MainBoard.Connect();
-            App.SecondBoard.
-            Status.Content = "串口号" + settings.PortName + "波特率" + settings.BaudRate;
+            App.SecondBoard.Connect();
+            Status.Content = "串口号" + settings.PortName + "波特率" + settings.BaudRate; //+App.SecondBoard.HandShake();
         }
 
 
@@ -62,7 +62,8 @@ namespace APP439B
         {
             Status.Content = "断开连接主板";
             App.MainBoard.Disconnect();
-            App.SecondBoard.
+            //App.SecondBoard.Disconnect();
+            
         }
 
         private void Settings_Executed(object sender, ExecutedRoutedEventArgs e)

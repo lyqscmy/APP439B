@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using APP439B.ViewModel;
 
 namespace APP439B.View
 {
@@ -27,6 +28,7 @@ namespace APP439B.View
         public ControlCenterView()
         {
             InitializeComponent();
+            DataContext = new ControlCenterViewModel();
             player = new SoundPlayer();
             player.SoundLocation = "../../Sounds/redalert.wav";
             playing = false;

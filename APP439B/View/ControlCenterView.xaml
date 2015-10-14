@@ -5,13 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Command="clr-namespace:APP439B.Commands"
              mc:Ignorable="d" 
-             Width="300"
+             MinWidth="300"
              Height="60"
              >
     <UserControl.CommandBindings>
     </UserControl.CommandBindings>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="6" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="6" />
             <ColumnDefinition Width="Auto" />
@@ -24,24 +28,27 @@
         </Grid.RowDefinitions>
         <Button 
             x:Name="PlayBoardcast"
-            Grid.Row="0" Grid.Column="0" 
+            Grid.Row="0" Grid.Column="2" 
             HorizontalAlignment="Right"
             Margin="4,2" 
             MinWidth="60" 
             MaxHeight="30"
             Content="播放警报"
+            Command="{Binding AlterCommand}"
             Click="PlayBoardcast_Click"
             />
+        
         <Button 
             x:Name="HandShake"
-            Grid.Row="0" Grid.Column="2" 
+            Grid.Row="0" Grid.Column="0" 
             HorizontalAlignment="Left"
             Margin="4,2" 
             MinWidth="60"
             MaxHeight="30"
             Content="自检"
-            Click="HandShake_Click"
+            Command="{Binding HandShakeCommand}"
             />
+        
         <Button 
             x:Name="Start"
             Grid.Row="0" Grid.Column="4" 
@@ -49,8 +56,29 @@
             Margin="4,2" 
             MinWidth="60" 
             MaxHeight="30"
-            Content="实验开始"
-            Click="Start_Click"
+            Content="点火"
+            Command="{Binding FireCommand}"
+            />
+        <Button 
+            x:Name="Stop"
+            Grid.Row="0" Grid.Column="6" 
+            HorizontalAlignment="Left"
+            Margin="4,2" 
+            MinWidth="60" 
+            MaxHeight="30"
+            Content="停止"
+            Command="{Binding StopCommand}"
+            />
+
+        <Button 
+            x:Name="PlaySafeBoardcast"
+            Grid.Row="0" Grid.Column="8" 
+            HorizontalAlignment="Left"
+            Margin="4,2" 
+            MinWidth="60" 
+            MaxHeight="30"
+            Content="解除警报"
+            Command="{Binding AllClearCommand}"
             />
     </Grid>
 </UserControl>
