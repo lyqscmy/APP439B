@@ -30,7 +30,7 @@ namespace APP439B.View
             InitializeComponent();
             DataContext = new ControlCenterViewModel();
             player = new SoundPlayer();
-            player.SoundLocation = "../../Sounds/redalert.wav";
+            player.SoundLocation = "../../Sounds/yuxianjb.wav";
             playing = false;
         }
 
@@ -49,22 +49,30 @@ namespace APP439B.View
            
         }
 
-        private void PlayBoardcast_Click(object sender, RoutedEventArgs e)
+        private void yuxianjb_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (playing)
-                {
-                    PlayBoardcast.Content = "播放警报";
-                    player.Stop();
-                    playing = false;
-                }
-                else
-                {
-                    PlayBoardcast.Content = "解除警报";
-                    player.PlayLooping();
-                    playing = true;
-                }
+                player.Play();
+            }
+            catch (System.IO.FileNotFoundException err)
+            {
+                // An error will occur here if the file can't be found.
+            }
+            catch (FormatException err)
+            {
+                // A FormatException will occur here if the file doesn't
+                // contain valid WAV audio.
+            }
+        }
+
+        private void jiechujb_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                player.Stop();
+                player.SoundLocation = "../../Sounds/jiechujb.wav";
+                player.Play();
             }
             catch (System.IO.FileNotFoundException err)
             {
@@ -108,6 +116,11 @@ namespace APP439B.View
                 }
                 
             }
+        }
+
+        private void HandShake_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

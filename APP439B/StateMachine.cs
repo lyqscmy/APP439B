@@ -42,14 +42,14 @@ namespace APP439B
         .Permit(Triggers.TensionAdjust, States.TensionAdjusting);
 
       Configure(States.TensionAdjusting)
-        .Permit(Triggers.TensionAdjustFailed, States.HandShakeComplete)
+        .Permit(Triggers.TensionAdjustFailed, States.Start)
         .Permit(Triggers.TensionAdjustSucceeded, States.TensionAdjustComplete);
 
       Configure(States.TensionAdjustComplete)
         .Permit(Triggers.SafetyConfirm, States.SafetyConfirming);
 
       Configure(States.SafetyConfirming)
-        .Permit(Triggers.SafetyConfirmingFailed, States.TensionAdjustComplete)
+        .Permit(Triggers.SafetyConfirmingFailed, States.Start)
         .Permit(Triggers.SafetyConfirmSucceeded, States.SafetyConfirmComplete);
 
       Configure(States.SafetyConfirmComplete)
@@ -60,11 +60,7 @@ namespace APP439B
 
       Configure(States.fireComplete)
         .Permit(Triggers.Stop, States.Altering)
-        .Permit(Triggers.AllClear, States.AllClear);
-
-      Configure(States.AllClear)
-        .Permit(Triggers.AllClearFailed, States.fireComplete)
-        .Permit(Triggers.AllClearSucceeded, States.End);
+        .Permit(Triggers.AllClear, States.Start);
 
       OnTransitioned
         (

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,14 @@ namespace APP439B.ViewModel
 {
     public  class ControlCenterViewModel : BindableObject
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, e);
+        }
+
         public ControlCenterViewModel()
         {
             StateMachine = new StateMachine
@@ -21,6 +30,7 @@ namespace APP439B.ViewModel
             FireCommand = StateMachine.CreateCommand(Triggers.Fire);
             StopCommand = StateMachine.CreateCommand(Triggers.Stop);
             AllClearCommand = StateMachine.CreateCommand(Triggers.AllClear);
+            HandShakeState = 3;
         }
 
         public ICommand HandShakeCommand { get; private set; }
@@ -31,6 +41,18 @@ namespace APP439B.ViewModel
 
         public StateMachine StateMachine { get; private set; }
 
+        private int handShakeState;
+        public int HandShakeState {
+            get
+            {
+                return handShakeState;
+            }
+            set
+            {
+                handShakeState = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("HandShakeState"));
+            }
+        }
         
 
         public void HandShake()
@@ -48,6 +70,7 @@ namespace APP439B.ViewModel
                 case MessageBoxResult.Yes:
                     // User pressed Yes button
                     StateMachine.Fire(Triggers.HandShakeSucceeded);
+                    HandShakeState = 2;
                     TensionAdjust();
                     break;
                 case MessageBoxResult.No:
