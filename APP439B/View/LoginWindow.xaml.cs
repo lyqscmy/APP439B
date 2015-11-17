@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace APP439B.View
 {
@@ -26,12 +28,20 @@ namespace APP439B.View
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = false;
             this.Close();
         }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = true;
             this.Close();
+            //App.Database.Connect();
+            //App.Database.DeleteAll("UserInfo");  // used for debug
+            //App.Database.InsertUserInfo();
+            //App.Database.InsertEnvironment();
+            //App.Database.ReadAll();
+            //App.Database.Disconnect();
         }
     }
 }

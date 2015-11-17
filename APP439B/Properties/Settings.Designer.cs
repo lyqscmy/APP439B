@@ -106,5 +106,27 @@ namespace APP439B.Properties {
                 this["TimeOut"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=|DataDirectory|\\user_info.mdf;Integr" +
+            "ated Security=True;Connect Timeout=30")]
+        public string user_infoConnectionString {
+            get {
+                return ((string)(this["user_infoConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=|DataDirectory|\\userInfo.mdf;Integra" +
+            "ted Security=True;Connect Timeout=30")]
+        public string userInfoConnectionString {
+            get {
+                return ((string)(this["userInfoConnectionString"]));
+            }
+        }
     }
 }

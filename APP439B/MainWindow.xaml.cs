@@ -27,14 +27,6 @@ namespace APP439B
         public MainWindow()
         {
             InitializeComponent();
-            try
-            {
-                Connect_Executed(this, null);
-            }
-            catch 
-            {
-                Status.Content = "中心控制器未连接";
-            }
         }
 
         # region Commands
@@ -62,7 +54,7 @@ namespace APP439B
         {
             Status.Content = "断开连接主板";
             App.MainBoard.Disconnect();
-            //App.SecondBoard.Disconnect();
+            App.SecondBoard.Disconnect();
             
         }
 

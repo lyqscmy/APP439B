@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using APP439B.View;
 
 namespace APP439B.ViewModel
 {
@@ -71,6 +72,8 @@ namespace APP439B.ViewModel
                     // User pressed Yes button
                     StateMachine.Fire(Triggers.HandShakeSucceeded);
                     HandShakeState = 2;
+                    HandshakeWindow handShakeWindow = new HandshakeWindow();
+                    handShakeWindow.ShowDialog();
                     TensionAdjust();
                     break;
                 case MessageBoxResult.No:

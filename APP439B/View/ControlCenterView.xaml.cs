@@ -28,7 +28,7 @@ namespace APP439B.View
         public ControlCenterView()
         {
             InitializeComponent();
-            DataContext = new ControlCenterViewModel();
+            //this.DataContext = new ControlCenterViewModel();
             player = new SoundPlayer();
             player.SoundLocation = "../../Sounds/yuxianjb.wav";
             playing = false;
@@ -36,17 +36,14 @@ namespace APP439B.View
 
         private void HandShake_Click(object sender, RoutedEventArgs e)
         {
-            try
+            HandshakeWindow handShakeWindow = new HandshakeWindow();
+            Nullable<bool> dialogResult = handShakeWindow.ShowDialog();
+            if((bool)dialogResult)
             {
-                App.MainBoard.HandShake();
-                App.SecondBoard.HandShake();
+                HandShake.IsEnabled = false;
+                PlayBoardcast.IsEnabled = true;
             }
-            catch
-            {
- 
-            }
-
-           
+            
         }
 
         private void yuxianjb_Click(object sender, RoutedEventArgs e)
@@ -54,6 +51,8 @@ namespace APP439B.View
             try
             {
                 player.Play();
+                PlayBoardcast.IsEnabled = false;
+                Start.IsEnabled = true;
             }
             catch (System.IO.FileNotFoundException err)
             {
@@ -73,6 +72,9 @@ namespace APP439B.View
                 player.Stop();
                 player.SoundLocation = "../../Sounds/jiechujb.wav";
                 player.Play();
+                HandShake.IsEnabled = true;
+                Stop.IsEnabled = false;
+                PlaySafeBoardcast.IsEnabled = false;
             }
             catch (System.IO.FileNotFoundException err)
             {
@@ -85,42 +87,54 @@ namespace APP439B.View
             }
         }
 
-        private void Start_Click(object sender, RoutedEventArgs e)
+        private void fire(object sender, RoutedEventArgs e)
         {
+            Start.IsEnabled = false;
+            Stop.IsEnabled = true;
+            PlaySafeBoardcast.IsEnabled = true;
+        }
 
-            if (Start.Content.ToString() == "实验开始")
-            {
-                try
-                {
-                    App.MainBoard.TestStart();
-                    App.SecondBoard.TestStart();
-                    Start.Content = "实验停止";
-                }
-                catch
-                {
+
+        private void stop(object sender, RoutedEventArgs e)
+        {
+            Start.IsEnabled = true;
+            Stop.IsEnabled = false;
+            PlaySafeBoardcast.IsEnabled = false;
+
+        }
+
+        //private void Start_Click(object sender, RoutedEventArgs e)
+        //{
+
+        //    if (Start.Content.ToString() == "实验开始")
+        //    {
+        //        try
+        //        {
+        //            App.MainBoard.TestStart();
+        //            App.SecondBoard.TestStart();
+        //            Start.Content = "实验停止";
+        //        }
+        //        catch(Exception)
+        //        {
                     
-                }
+        //        }
                 
-            }
-            else
-            {
-                try
-                {
-                    App.MainBoard.TestStop();
-                    App.SecondBoard.TestStop();
-                    Start.Content = "实验开始";
-                }
-                catch
-                {
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            App.MainBoard.TestStop();
+        //            App.SecondBoard.TestStop();
+        //            Start.Content = "实验开始";
+        //        }
+        //        catch(Exception)
+        //        {
 
-                }
+        //        }
                 
-            }
-        }
+        //    }
+        //}
 
-        private void HandShake_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

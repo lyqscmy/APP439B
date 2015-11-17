@@ -24,6 +24,9 @@ namespace APP439B
         private static SecondBoard secondBoard = new SecondBoard();
         public static SecondBoard SecondBoard { get { return secondBoard; } }
 
+        //private static Database database = new Database();
+        //public static Database Database { get { return database; } }
+
         private static bool[] steps = new bool[5];
         public static bool[] Steps 
         {
@@ -33,56 +36,56 @@ namespace APP439B
 
         # endregion //Properties
 
-        # region Commands
+        //# region Commands
 
-        public void HandShake(object sender, ExecutedRoutedEventArgs e)
-        {
-            try
-            {
-                App.MainBoard.HandShake();
-                App.SecondBoard.HandShake();
-            }
-            catch
-            { }
+        //public void HandShake(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        App.MainBoard.HandShake();
+        //        App.SecondBoard.HandShake();
+        //    }
+        //    catch
+        //    { }
           
-        }
+        //}
 
-        public void CanHandShake(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = Steps[0];
-        }
+        //public void CanHandShake(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = Steps[0];
+        //}
 
-        public  void PlayBoardcast(object sender, ExecutedRoutedEventArgs e)
-        {
+        //public  void PlayBoardcast(object sender, ExecutedRoutedEventArgs e)
+        //{
             
-        }
+        //}
 
-        public void CanPlayBoardcast(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = Steps[1];
-        }
+        //public void CanPlayBoardcast(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = Steps[1];
+        //}
 
-        public void Start(object sender, ExecutedRoutedEventArgs e)
-        {
+        //public void Start(object sender, ExecutedRoutedEventArgs e)
+        //{
 
-        }
+        //}
 
-        public void CanStart(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = Steps[1];
-        }
+        //public void CanStart(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = Steps[1];
+        //}
 
-        public void Stop(object sender, ExecutedRoutedEventArgs e)
-        {
+        //public void Stop(object sender, ExecutedRoutedEventArgs e)
+        //{
 
-        }
+        //}
 
-        public void CanStop(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = Steps[1];
-        }
+        //public void CanStop(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = Steps[1];
+        //}
 
-        # endregion //Commands
+        //# endregion //Commands
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -93,9 +96,20 @@ namespace APP439B
 
             LoginWindow login = new LoginWindow();
             login.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            login.ShowDialog();
 
-            mainWindow.Show();
+            Nullable<bool> dialogResult = login.ShowDialog();
+            if ((bool)dialogResult)
+            {
+                mainWindow.Show();
+            }
+            else {
+                App.Current.Shutdown();
+            }
+
+            
+            
+
+           
             # endregion //Windows
         }
     }

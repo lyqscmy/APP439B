@@ -86,45 +86,25 @@ namespace APP439B.Model
         
         public string HandShake()
         {
-            string response = "设备正常";
+            string response = "设备异常";
+            byte[] input = new byte[1024];
+            byte[] recv = new byte[1024];
+            byte[] data = new byte[1024];
+            int len_recv;
+
             try
             {
-                byte[] input = new byte[1024];
-                byte[] recv = new byte[1024];
-                byte[] data = new byte[1024];
-                int len_recv;
                 //string stringRecv;
-
-                try
-                {
-                    Array.Copy(commands["HandShake"], input, commands["HandShake"].Length);
-                    socket.Send(input, input.Length, SocketFlags.None);
-
-                    len_recv = socket.Receive(recv);
-                    data[0] = recv[2];  //add
-                    data[1] = recv[3];  //c
-                    data[2] = recv[4];  //l
-                    data[3] = recv[5];  //data
-                    Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(recv, 0, len_recv));
-                }
-                catch (ArgumentNullException ane)
-                {
-                    Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-                    response = "读取异常";
-                    return response;
-                }
-                catch (SocketException se)
-                {
-                    Console.WriteLine("SocketException : {0}", se.ToString());
-                    response = "读取异常";
-                    return response;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Unexpected exception : {0}", e.ToString());
-                    response = "读取异常";
-                    return response;
-                }
+                Array.Copy(commands["HandShake"], input, commands["HandShake"].Length);
+                Connect();
+                socket.Send(input, input.Length, SocketFlags.None);
+                len_recv = socket.Receive(recv);
+                Disconnect();
+                data[0] = recv[2];  //add
+                data[1] = recv[3];  //c
+                data[2] = recv[4];  //l
+                data[3] = recv[5];  //data
+                Console.WriteLine("Echoed test = {0}", Encoding.ASCII.GetString(recv, 0, len_recv));
 
                 if (data[4] != CheckSum(data)) //cs
                 { throw new Exception(); }
@@ -135,21 +115,20 @@ namespace APP439B.Model
                     if ((data[3] & 0x02) != 0x00) List.Add("2#多普勒测速仪异常 ");
                     if ((data[3] & 0x04) != 0x00) List.Add("3#多普勒测速仪异常 ");
                     if ((data[3] & 0x08) != 0x00) List.Add("环境参数测试仪异常 ");
-                    foreach(string str in List)
+                    foreach (string str in List)
                     {
                         response = "";
                         response += str;
                         return response;
                     }
                 }
-                
             }
-            catch (Exception e)
+           finally
             {
-                Console.WriteLine(e.ToString());
-                response = "读取异常";
-                return response;
+                Disconnect();
             }
+            
+           
             return response;
         }
 
