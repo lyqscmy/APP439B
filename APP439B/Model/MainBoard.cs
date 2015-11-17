@@ -117,7 +117,7 @@ namespace APP439B
 
         # region Commands
 
-        public string HandShake()
+        public bool HandShake(string device)
         {
             Write(commands["HandShake"]);
             byte[] data = new byte[1]{0x00};
@@ -127,7 +127,7 @@ namespace APP439B
             }
             catch (Exception)
             {
-                return "读取失败";
+                return false;
             }
             if (data[0] != 0)
             {
@@ -140,10 +140,26 @@ namespace APP439B
                 {
                     response = "";
                     response += str;
-                    return response;
                 }
             }
-            return "设备正常";
+
+            switch (device)
+            {
+                case "Envirnoment":
+                    return true;
+                case "Motor":
+                    return true;
+                case "Video":
+                    return true;
+                case "Cesu":
+                    return true;
+                case "Jilu":
+                    return true;
+                case "All":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         public string TestStart()

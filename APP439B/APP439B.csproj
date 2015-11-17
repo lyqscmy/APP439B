@@ -114,10 +114,6 @@
     <Compile Include="View\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PullParameterView.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>PullParameterView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\SettingsView.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -151,10 +147,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\LoginWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\PullParameterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

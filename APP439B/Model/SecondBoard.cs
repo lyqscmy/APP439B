@@ -84,7 +84,7 @@ namespace APP439B.Model
             return cs;
         }
         
-        public string HandShake()
+        public bool HandShake(string device)
         {
             string response = "设备异常";
             byte[] input = new byte[1024];
@@ -119,7 +119,6 @@ namespace APP439B.Model
                     {
                         response = "";
                         response += str;
-                        return response;
                     }
                 }
             }
@@ -127,9 +126,23 @@ namespace APP439B.Model
             {
                 Disconnect();
             }
+
+            switch (device)
+            {
+                case "Motor":
+                    return true;
+                case "Video":
+                    return true;
+                case "Cesu":
+                    return true;
+                case "Jilu":
+                    return true;
+                case "All":
+                    return true;
+                default:
+                    return false;
+            }
             
-           
-            return response;
         }
 
         public bool TestStart()

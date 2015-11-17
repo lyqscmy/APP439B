@@ -23,7 +23,6 @@ namespace APP439B.View
     public partial class ControlCenterView : UserControl
     {
         private SoundPlayer player;
-        private bool playing;
 
         public ControlCenterView()
         {
@@ -31,7 +30,6 @@ namespace APP439B.View
             //this.DataContext = new ControlCenterViewModel();
             player = new SoundPlayer();
             player.SoundLocation = "../../Sounds/yuxianjb.wav";
-            playing = false;
         }
 
         private void HandShake_Click(object sender, RoutedEventArgs e)

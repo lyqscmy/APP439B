@@ -25,6 +25,7 @@
         </Grid.ColumnDefinitions>
 
         <dxga:StateIndicatorControl 
+            x:Name="EnvirIndicator"
             Grid.Row="0" Grid.Column="0" 
             Width="50"
             StateIndex="3">
@@ -42,6 +43,7 @@
             />
 
         <dxga:StateIndicatorControl 
+            x:Name="MotorIndicator"
             Grid.Row="2" Grid.Column="0" 
             Width="50"
             StateIndex="3">
@@ -59,6 +61,7 @@
             />
 
         <dxga:StateIndicatorControl 
+            x:Name="VideoIndicator"
             Grid.Row="4" Grid.Column="0" 
             Width="50"
             StateIndex="3">
@@ -76,6 +79,7 @@
             />
 
         <dxga:StateIndicatorControl 
+            x:Name="CesuIndicator"
             Grid.Row="6" Grid.Column="0" 
             Width="50"
             StateIndex="3">
@@ -93,6 +97,7 @@
             />
 
         <dxga:StateIndicatorControl 
+            x:Name="JiluIndicator"
             Grid.Row="8" Grid.Column="0" 
             Width="50"
             StateIndex="3">
